@@ -48,3 +48,4 @@ end
 
 gem 'react-rails'
 gem 'graphql'
+gem 'acts-as-taggable-on'

@@ -15,54 +15,6 @@ module Query
     end
   end
 
-  UserType = GraphQL::ObjectType.define do
-    name "user"
-
-    interfaces [GraphQL::Relay::Node.interface]
-
-    global_id_field :id
-    field :name, types.String
-
-    field :posts, types[PostType]
-    # connection :posts, PostType.connection_type
-  end
-
-  PostType = GraphQL::ObjectType.define do
-    name "post"
-    interfaces [GraphQL::Relay::Node.interface]
-
-    global_id_field :id
-
-    field :title, types.String
-    field :content, types.String
-
-    field :user, UserType
-  end
-
-  QueryType = GraphQL::ObjectType.define do
-    name "query"
-
-    field :user do
-      type UserType
-
-      argument :id, !types.ID
-
-      resolve ->(obj, args, ctx) do
-        GlobalID::Locator.locate(args["id"])
-      end
-    end
-
-    # field :node, GraphQL::Relay::Node.field
-
-    field :users do
-      type types[UserType]
-
-      resolve ->(obj, args, ctx) do
-        includes = ::Query.find_includes(ctx)
-        User.all.includes(includes).to_a
-      end
-    end
-  end
 
   Schema = GraphQL::Schema.define do
     query QueryType
