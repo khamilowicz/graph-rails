@@ -48,4 +48,3 @@ end
 
 gem 'react-rails'
 gem 'graphql'
-# gem 'graphql-relay'
