@@ -4,7 +4,7 @@ class PageController < ApplicationController
   end
 
   def query
-    render json: Query.call(request_body)
+    render json: Query.call(request_body, variables: params[:variables])
   end
 
   def request_body

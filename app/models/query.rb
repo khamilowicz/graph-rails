@@ -18,6 +18,8 @@ module Query
 
   Schema = GraphQL::Schema.define do
     query QueryType
+    mutation ::Mutation::MutationType
+
     resolve_type ->(obj, ctx) do
       puts obj.inspect
       "user"
@@ -31,7 +33,8 @@ module Query
     }
   end
 
-  def self.call(graph_request)
-    Schema.execute(graph_request, except: Mask)
+  def self.call(graph_request, options = {})
+    puts options
+    Schema.execute(graph_request, options.merge(except: Mask))
   end
 end
